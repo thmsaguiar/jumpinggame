@@ -30,8 +30,9 @@
 				height: 50,
 				color: "#ffdf70",
 				drawing: function(){
-					ctx.fillStyle = this.color;
-					ctx.fillRect(0, this.y, WIDTH, this.height);
+					//ctx.fillStyle = this.color;
+					//ctx.fillRect(0, this.y, WIDTH, this.height);
+					bg.drawingFl(0, this.y);
 				}
 			}, 
 			charctmain = {
@@ -167,6 +168,14 @@
 				img.src = "imagens/cenario.png";
 				imgBnc = new Image();
 				imgBnc.src = "imagens/personagem.png";
+				imgStr = new Image();
+				imgStr.src = "imagens/start.png";
+				imgFl = new Image();
+				imgFl.src = "imagens/floor.png";
+				imgGo = new Image();
+				imgGo.src = "imagens/gameover.png";
+				imgRcd = new Image();
+				imgRcd.src = "imagens/newrecord.png";
 
 				loop();
 			}
@@ -192,34 +201,46 @@
 				//ctx.fillRect(0, 0, WIDTH, HEIGHT);
 				bg.drawing();				
 
-				ctx.fillStyle = "#fff";
-				ctx.font = "50px Arial";
+				ctx.fillStyle = "#000";
+				ctx.font = "50px Gigi";
 				ctx.fillText(charctmain.score, 30, 68);				
 
 				if(currentState == states.play){
-					ctx.fillStyle = "green";
-					ctx.fillRect(WIDTH/2 - 50, HEIGHT/2 - 50, 100, 100);
+					//ctx.fillStyle = "green";					
+					bg.drawingStr(50, 100);
 				}else if(currentState == states.failed){
-					ctx.fillStyle = "red";
-					ctx.fillRect(WIDTH/2 - 50, HEIGHT/2 - 50, 100, 100);
+					//ctx.fillStyle = "red";
+					//ctx.fillRect(WIDTH/2 - 50, HEIGHT/2 - 50, 100, 100);					
+					ctx.fillStyle = "#000";
 					ctx.save();
-					ctx.translate(WIDTH/2, HEIGHT/2);
-					ctx.fillStyle = "#fff";
-					if(charctmain.score > record)
-						ctx.fillText("Novo Record!", -150, -65);
-					else if(record < 10)
-						ctx.fillText("Record "+record, -99, -65);
-					else if(record >= 10 && record < 100)
-						ctx.fillText("Record "+record, -112, -65);
-					else
-						ctx.fillText("Record "+record, -125, -65);					
+					if(charctmain.score > record){				
+						bg.drawingRcd(50,100);
+						ctx.translate(450, 340);
+					}else if(record < 10){
+						bg.drawingGo(50, 100);					
+						ctx.translate(450, 340);
+						ctx.fillText(""+record, -110,-65);
+					}
+					else if(record >= 10 && record < 100){
+						bg.drawingGo(50, 100);					
+						ctx.translate(450, 340);
+						ctx.fillText(""+record, -120, -65);
+					}
+					else{
+						bg.drawingGo(50, 100);					
+						ctx.translate(450, 340);
+						ctx.fillText(""+record, -130, -65);					
+					}
 
-					if(charctmain.score < 10)
-						ctx.fillText(charctmain.score, -13, 19);
-					else if(charctmain.score >= 10 && charctmain.score< 100)
-						ctx.fillText(charctmain.score, -26, 19);
-					else
-						ctx.fillText(charctmain.score, -39, 19);
+					if(charctmain.score < 10){					
+						ctx.fillText(charctmain.score, -110, 10);
+					}
+					else if(charctmain.score >= 10 && charctmain.score< 100){						
+						ctx.fillText(charctmain.score, -110, 10);
+					}
+					else{						
+						ctx.fillText(charctmain.score, -110, 10);
+					}
 					ctx.restore();
 				}else if(currentState == states.playing){
 					obstacles.drawing();
