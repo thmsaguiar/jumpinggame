@@ -1,6 +1,7 @@
 <!doctype html>
 <html>
 	<head>
+		<!-- @autor thmsaguiar -->
 		<meta charset="UTF-8"/>
 		<title>Minha engine</title>
 		<style>
@@ -17,7 +18,7 @@
 	<body>
 		<script  type="text/javascript">
 			//variáveis do jogo
-			var canvas, ctx, HEIGHT, WIDTH, frames = 0, maxJump = 3, velocity = 6, currentState,
+			var canvas, ctx, HEIGHT, WIDTH, frames = 0, maxJump = 3, velocity = 6, currentState, record,
 			states = {
 				play: 0,
 				playing: 1,
@@ -55,7 +56,12 @@
 				reset: function(){
 					this.velocity = 0;
 					this.y = 0;
+					if(this.score > record){
+						localStorage.setItem("record", this.score);
+						record = this.score;
+					}
 					this.score = 0;
+
 				},
 				jump: function(){
 					if(this.qtdJump < maxJump){
@@ -150,6 +156,11 @@
 				document.addEventListener("mousedown", click);
 
 				currentState = states.play;
+				record = localStorage.getItem("record");
+				if(record == null){
+					record = 0;
+				}
+
 				loop();
 			}
 
@@ -186,6 +197,16 @@
 					ctx.save();
 					ctx.translate(WIDTH/2, HEIGHT/2);
 					ctx.fillStyle = "#fff";
+					if(charctmain.score > record)
+						ctx.fillText("Novo Record!", -150, -65);
+					else if(record < 10)
+						ctx.fillText("Record "+record, -99, -65);
+					else if(record >= 10 && record < 100)
+						ctx.fillText("Record "+record, -112, -65);
+					else
+						ctx.fillText("Record "+record, -125, -65);
+					
+
 					if(charctmain.score < 10)
 						ctx.fillText(charctmain.score, -13, 19);
 					else if(charctmain.score >= 10 && charctmain.score< 100)
