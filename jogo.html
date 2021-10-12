@@ -1,0 +1,139 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Minha engine</title>
+		<style>
+			canvas{
+				position: absolute;
+				top:  0px;
+				bottom:  0px;
+				left: 0px;
+				right: 0px;
+				margin: auto;
+			}
+		</style>
+	</head>
+	<body>
+		<script  type="text/javascript">
+			//variáveis do jogo
+			var canvas, ctx, HEIGHT, WIDTH, frames = 0, maxJump = 3, 
+			floor = {
+				y: 550,
+				height: 50,
+				color: "#ffdf70",
+				drawing: function(){
+					ctx.fillStyle = this.color;
+					ctx.fillRect(0, this.y, WIDTH, this.height);
+				}
+			}, 
+			charctmain = {
+				x: 50,
+				y: 0,
+				height: 50,
+				width: 50,
+				color: "#ff4e4e",
+				gravity: 1.6,
+				velocity: 0,
+				strengthJump: 23.6,
+				qtdJump: 0,
+				update: function(){
+					this.velocity += this.gravity;
+					this.y += this.velocity;
+					if(this.y > floor.y - this.height){
+						this.y = floor.y - this.height;
+						this.qtdJump = 0;
+					}
+				},
+				jump: function(){
+					if(this.qtdJump < maxJump){
+						this.velocity = -this.strengthJump;
+						this.qtdJump++;
+					}					
+				},
+				drawing: function(){
+					ctx.fillStyle = this.color;
+					ctx.fillRect(this.x, this.y, this.width, this.height);
+				}
+			},
+			obstacles = {
+				_obs: [],
+				colors: ["#ffbc1c", "#ff1c1c", "#52a7ff", "#78ff5d"],
+				insert: function(){
+					this._obs.push({
+						x: WIDTH,
+						width: 30 + Math.floor(21 * Math.random()),
+						height: 30 + Math.floor(120 * Math.random()),
+						color: this.colors[Math.floor(5 * Math.random())]
+					});
+				},
+				update: function(){
+
+				},
+				drawing: function(){
+					for (var i = 0, tam = this._obs.length; i<tam; i++){
+						var obs = this._obs[i];
+						ctx.fillStyle = obs.color;
+						ctx.fillRect(obs.x, floor.y-obs.height, obs.width, obs.height);
+					}
+				}
+			};
+
+			function click(event){
+				charctmain.jump();
+			}
+
+			//função principal
+			function main(){
+
+				HEIGHT = window.innerHeight;
+				WIDTH = window.innerWidth;
+
+				if(WIDTH >= 500){
+					//setando valor da janela
+					HEIGHT = 600;
+					WIDTH = 600;					
+				}
+
+				//criando o canvas
+				canvas = document.createElement("canvas");
+				canvas.width = WIDTH;
+				canvas.height = HEIGHT;
+				canvas.style.border = "1px solid #000";
+				
+				ctx = canvas.getContext("2d");
+
+				document.body.appendChild(canvas);
+				document.addEventListener("mousedown", click);
+
+				loop();
+			}
+
+			
+			function loop(){
+				update();
+				drawing();
+
+				window.requestAnimationFrame(loop);
+			}
+
+			function update(){
+				frames++;
+				charctmain.update();
+			}
+
+			function drawing(){
+				ctx.fillStyle = "#50beff";
+				ctx.fillRect(0, 0, WIDTH, HEIGHT);
+
+				floor.drawing();
+				obstacles.drawing();
+				charctmain.drawing();
+
+			}
+
+			//inicializando o jogo
+			main();
+		</script>		
+	</body>
+</html>
