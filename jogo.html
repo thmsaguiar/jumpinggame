@@ -17,7 +17,7 @@
 	<body>
 		<script  type="text/javascript">
 			//variáveis do jogo
-			var canvas, ctx, HEIGHT, WIDTH, frames = 0, maxJump = 3, 
+			var canvas, ctx, HEIGHT, WIDTH, frames = 0, maxJump = 3, velocity = 6, 
 			floor = {
 				y: 550,
 				height: 50,
@@ -58,7 +58,8 @@
 			},
 			obstacles = {
 				_obs: [],
-				colors: ["#ffbc1c", "#ff1c1c", "#52a7ff", "#78ff5d"],
+				colors: ["#ffbc1c", "#ff85e1", "#ff1c1c", "#52a7ff", "#78ff5d"],
+				timeInsert: 0,
 				insert: function(){
 					this._obs.push({
 						x: WIDTH,
@@ -66,9 +67,23 @@
 						height: 30 + Math.floor(120 * Math.random()),
 						color: this.colors[Math.floor(5 * Math.random())]
 					});
+					this.timeInsert = 35 + Math.floor(26 * Math.random());
 				},
 				update: function(){
+					if(this.timeInsert == 0)
+						this.insert();
+					else
+						this.timeInsert--;
 
+					for (var i = 0, tam = this._obs.length; i < tam; i++){
+						var obs = this._obs[i];
+						obs.x -= velocity;
+						if(obs.x <= -obs.width){
+							this._obs.splice(i, 1);
+							tam--;
+							i--;
+						}
+					}
 				},
 				drawing: function(){
 					for (var i = 0, tam = this._obs.length; i<tam; i++){
@@ -120,14 +135,16 @@
 			function update(){
 				frames++;
 				charctmain.update();
+				obstacles.update();
 			}
 
 			function drawing(){
 				ctx.fillStyle = "#50beff";
 				ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
+				
 				floor.drawing();
-				obstacles.drawing();
+				obstacles.drawing();				
 				charctmain.drawing();
 
 			}
