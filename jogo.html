@@ -42,6 +42,7 @@
 				velocity: 0,
 				strengthJump: 23.6,
 				qtdJump: 0,
+				score: 0,
 				update: function(){
 					this.velocity += this.gravity;
 					this.y += this.velocity;
@@ -50,6 +51,11 @@
 						this.qtdJump = 0;
 						this.velocity = 0;
 					}
+				},
+				reset: function(){
+					this.velocity = 0;
+					this.y = 0;
+					this.score = 0;
 				},
 				jump: function(){
 					if(this.qtdJump < maxJump){
@@ -69,11 +75,12 @@
 				insert: function(){
 					this._obs.push({
 						x: WIDTH,
-						width: 30 + Math.floor(21 * Math.random()),
+						//width: 30 + Math.floor(21 * Math.random()),
+						width: 50,
 						height: 30 + Math.floor(120 * Math.random()),
 						color: this.colors[Math.floor(5 * Math.random())]
 					});					
-					this.timeInsert = 35 + Math.floor(26 * Math.random());
+					this.timeInsert = 40 + Math.floor(26 * Math.random());
 				},
 				update: function(){
 					if(this.timeInsert == 0)
@@ -86,6 +93,8 @@
 						obs.x -= velocity;
 						if(charctmain.x < obs.x + obs.width && charctmain.x + charctmain.width >= obs.x && charctmain.y + charctmain.height >= floor.y - obs.height){
 							currentState = states.failed;
+						}else if(obs.x == 0){
+							charctmain.score++;
 						}else if(obs.x <= -obs.width){
 							this._obs.splice(i, 1);
 							tam--;
@@ -111,11 +120,10 @@
 				else if(currentState == states.play){
 					currentState = states.playing;
 				}else if(currentState == states.failed && charctmain.y >= 2*HEIGHT){
-					currentState = states.play;
-					charctmain.velocity = 0;
-					charctmain.y = 0;
+					currentState = states.play;					
+					obstacles.clear();			
+					charctmain.reset();	
 				}
-
 			}
 
 			//função principal
@@ -158,8 +166,6 @@
 				charctmain.update();
 				if(currentState == states.playing){
 					obstacles.update();	
-				}else if( currentState == states.failed){
-					obstacles.clear();
 				}
 			}
 
@@ -167,12 +173,26 @@
 				ctx.fillStyle = "#50beff";
 				ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
+				ctx.fillStyle = "#fff";
+				ctx.font = "50px Arial";
+				ctx.fillText(charctmain.score, 30, 68);				
+
 				if(currentState == states.play){
 					ctx.fillStyle = "green";
 					ctx.fillRect(WIDTH/2 - 50, HEIGHT/2 - 50, 100, 100);
 				}else if(currentState == states.failed){
 					ctx.fillStyle = "red";
 					ctx.fillRect(WIDTH/2 - 50, HEIGHT/2 - 50, 100, 100);
+					ctx.save();
+					ctx.translate(WIDTH/2, HEIGHT/2);
+					ctx.fillStyle = "#fff";
+					if(charctmain.score < 10)
+						ctx.fillText(charctmain.score, -13, 19);
+					else if(charctmain.score >= 10 && charctmain.score< 100)
+						ctx.fillText(charctmain.score, -26, 19);
+					else
+						ctx.fillText(charctmain.score, -39, 19);
+					ctx.restore();
 				}else if(currentState == states.playing){
 					obstacles.drawing();
 				}
