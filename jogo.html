@@ -1,10 +1,14 @@
+<!-- @autor thmsaguiar -->
 <!doctype html>
 <html>
-	<head>
-		<!-- @autor thmsaguiar -->
+	<head>		
 		<meta charset="UTF-8"/>
 		<title>Jumping</title>
-		<script src="Sprite.js"></script>
+		<!-- Script -->
+		<script src="Sprite.js"></script>	
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">			
 		<style>
 			canvas{
 				position: absolute;
@@ -14,9 +18,25 @@
 				right: 0px;
 				margin: auto;
 			}
+			.btn-buymeacoffe{
+				border-radius: 50px;
+			}
+			.btn-buymeacoffe img{
+				width: 200px;
+			}
+			.info{
+				position:absolute; 
+				bottom:0; 
+				width:100%;
+				margin-left: 40px;
+			}
 		</style>
 	</head>
-	<body>
+	<body onselectStart="return false">	
+		<div class="info">			
+			<a type="button" class="btn btn-warning btn-buymeacoffe" href="https://www.buymeacoffee.com/thmsaguiar" target="_blank"><img src="imagens/bmc-icon.png"></a>
+			<p>© 2021 by Thomas Aguiar Vicente</p>
+		</div>		
 		<script  type="text/javascript">
 			//variáveis do jogo
 			var canvas, ctx, HEIGHT, WIDTH, frames = 0, maxJump = 3, velocity = 6, currentState, record, img, imgBnc, 
@@ -29,9 +49,7 @@
 				y: 550,
 				height: 50,
 				color: "#ffdf70",
-				drawing: function(){
-					//ctx.fillStyle = this.color;
-					//ctx.fillRect(0, this.y, WIDTH, this.height);
+				drawing: function(){					
 					bg.drawingFl(0, this.y);
 				}
 			}, 
@@ -71,9 +89,7 @@
 						this.qtdJump++;
 					}					
 				},
-				drawing: function(){
-					//ctx.fillStyle = this.color;
-					//ctx.fillRect(this.x, this.y, this.width, this.height);
+				drawing: function(){					
 					bg.drawingBnc(this.x, this.y);
 				}
 			},
@@ -83,8 +99,7 @@
 				timeInsert: 0,
 				insert: function(){
 					this._obs.push({
-						x: WIDTH,
-						//width: 30 + Math.floor(21 * Math.random()),
+						x: WIDTH,						
 						width: 50,
 						height: 30 + Math.floor(120 * Math.random()),
 						color: this.colors[Math.floor(5 * Math.random())]
@@ -197,20 +212,15 @@
 			}
 
 			function drawing(){
-				//ctx.fillStyle = "#50beff";
-				//ctx.fillRect(0, 0, WIDTH, HEIGHT);
 				bg.drawing();				
 
 				ctx.fillStyle = "#000";
 				ctx.font = "50px Gigi";
 				ctx.fillText(charctmain.score, 30, 68);				
 
-				if(currentState == states.play){
-					//ctx.fillStyle = "green";					
+				if(currentState == states.play){							
 					bg.drawingStr(50, 100);
-				}else if(currentState == states.failed){
-					//ctx.fillStyle = "red";
-					//ctx.fillRect(WIDTH/2 - 50, HEIGHT/2 - 50, 100, 100);					
+				}else if(currentState == states.failed){					
 					ctx.fillStyle = "#000";
 					ctx.save();
 					if(charctmain.score > record){				
