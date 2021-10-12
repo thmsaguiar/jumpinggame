@@ -4,6 +4,7 @@
 		<!-- @autor thmsaguiar -->
 		<meta charset="UTF-8"/>
 		<title>Jumping</title>
+		<script src="Sprite.js"></script>
 		<style>
 			canvas{
 				position: absolute;
@@ -18,7 +19,7 @@
 	<body>
 		<script  type="text/javascript">
 			//variáveis do jogo
-			var canvas, ctx, HEIGHT, WIDTH, frames = 0, maxJump = 3, velocity = 6, currentState, record,
+			var canvas, ctx, HEIGHT, WIDTH, frames = 0, maxJump = 3, velocity = 6, currentState, record, img, imgBnc, 
 			states = {
 				play: 0,
 				playing: 1,
@@ -70,8 +71,9 @@
 					}					
 				},
 				drawing: function(){
-					ctx.fillStyle = this.color;
-					ctx.fillRect(this.x, this.y, this.width, this.height);
+					//ctx.fillStyle = this.color;
+					//ctx.fillRect(this.x, this.y, this.width, this.height);
+					bg.drawingBnc(this.x, this.y);
 				}
 			},
 			obstacles = {
@@ -161,6 +163,11 @@
 					record = 0;
 				}
 
+				img = new Image();
+				img.src = "imagens/cenario.png";
+				imgBnc = new Image();
+				imgBnc.src = "imagens/personagem.png";
+
 				loop();
 			}
 
@@ -181,8 +188,9 @@
 			}
 
 			function drawing(){
-				ctx.fillStyle = "#50beff";
-				ctx.fillRect(0, 0, WIDTH, HEIGHT);
+				//ctx.fillStyle = "#50beff";
+				//ctx.fillRect(0, 0, WIDTH, HEIGHT);
+				bg.drawing();				
 
 				ctx.fillStyle = "#fff";
 				ctx.font = "50px Arial";
