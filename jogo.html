@@ -17,7 +17,12 @@
 	<body>
 		<script  type="text/javascript">
 			//variáveis do jogo
-			var canvas, ctx, HEIGHT, WIDTH, frames = 0, maxJump = 3, velocity = 6, 
+			var canvas, ctx, HEIGHT, WIDTH, frames = 0, maxJump = 3, velocity = 6, currentState,
+			states = {
+				play: 0,
+				playing: 1,
+				failed: 2
+			},
 			floor = {
 				y: 550,
 				height: 50,
@@ -40,9 +45,10 @@
 				update: function(){
 					this.velocity += this.gravity;
 					this.y += this.velocity;
-					if(this.y > floor.y - this.height){
+					if(this.y > floor.y - this.height && currentState != states.failed){
 						this.y = floor.y - this.height;
 						this.qtdJump = 0;
+						this.velocity = 0;
 					}
 				},
 				jump: function(){
@@ -66,7 +72,7 @@
 						width: 30 + Math.floor(21 * Math.random()),
 						height: 30 + Math.floor(120 * Math.random()),
 						color: this.colors[Math.floor(5 * Math.random())]
-					});
+					});					
 					this.timeInsert = 35 + Math.floor(26 * Math.random());
 				},
 				update: function(){
@@ -78,12 +84,17 @@
 					for (var i = 0, tam = this._obs.length; i < tam; i++){
 						var obs = this._obs[i];
 						obs.x -= velocity;
-						if(obs.x <= -obs.width){
+						if(charctmain.x < obs.x + obs.width && charctmain.x + charctmain.width >= obs.x && charctmain.y + charctmain.height >= floor.y - obs.height){
+							currentState = states.failed;
+						}else if(obs.x <= -obs.width){
 							this._obs.splice(i, 1);
 							tam--;
 							i--;
 						}
 					}
+				},
+				clear: function(){
+					this._obs = [];
 				},
 				drawing: function(){
 					for (var i = 0, tam = this._obs.length; i<tam; i++){
@@ -95,7 +106,16 @@
 			};
 
 			function click(event){
-				charctmain.jump();
+				if(currentState == states.playing)
+					charctmain.jump();
+				else if(currentState == states.play){
+					currentState = states.playing;
+				}else if(currentState == states.failed && charctmain.y >= 2*HEIGHT){
+					currentState = states.play;
+					charctmain.velocity = 0;
+					charctmain.y = 0;
+				}
+
 			}
 
 			//função principal
@@ -121,6 +141,7 @@
 				document.body.appendChild(canvas);
 				document.addEventListener("mousedown", click);
 
+				currentState = states.play;
 				loop();
 			}
 
@@ -135,16 +156,28 @@
 			function update(){
 				frames++;
 				charctmain.update();
-				obstacles.update();
+				if(currentState == states.playing){
+					obstacles.update();	
+				}else if( currentState == states.failed){
+					obstacles.clear();
+				}
 			}
 
 			function drawing(){
 				ctx.fillStyle = "#50beff";
 				ctx.fillRect(0, 0, WIDTH, HEIGHT);
 
-				
-				floor.drawing();
-				obstacles.drawing();				
+				if(currentState == states.play){
+					ctx.fillStyle = "green";
+					ctx.fillRect(WIDTH/2 - 50, HEIGHT/2 - 50, 100, 100);
+				}else if(currentState == states.failed){
+					ctx.fillStyle = "red";
+					ctx.fillRect(WIDTH/2 - 50, HEIGHT/2 - 50, 100, 100);
+				}else if(currentState == states.playing){
+					obstacles.drawing();
+				}
+
+				floor.drawing();								
 				charctmain.drawing();
 
 			}
