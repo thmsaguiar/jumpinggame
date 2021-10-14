@@ -20,8 +20,14 @@ Mr Jump, este simpático pontinho amarelo é o personagem controlável do jogo, 
 
 <img src="https://github.com/thmsaguiar/jumpinggame/blob/master/imagens/personagem.png" style="width:100px;height:100px;">
 
-### Jogando
+## Jogando
 O jogo em questão é de fácil jogabilidade usando apenas o clique do mouse para efetuar os pulos e dar inicio ao jogo.
+
+<div align="center">
+  
+![video exemple](https://i.imgur.com/CHRSXWm.gif)
+  
+</div>
 
 ## Criado por
 [Thomas Aguiar Vicente](https://www.github.com/thmsaguiar)
