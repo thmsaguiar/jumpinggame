@@ -1,7 +1,8 @@
 <img src="https://github.com/thmsaguiar/jumpinggame/blob/master/imagens/banner.png" style="width:1000px;height:250px;">
 <div align="center">
   
-[![Netlify Status](https://api.netlify.com/api/v1/badges/45aab881-ea65-488c-a076-9f7e7957252e/deploy-status)](https://app.netlify.com/sites/thmsaguiarjumpinggame/deploys) ![GitHub repo size](https://img.shields.io/github/repo-size/thmsaguiar/jumpinggame) ![GitHub last commit](https://img.shields.io/github/last-commit/thmsaguiar/jumpinggame) ![GitHub top language](https://img.shields.io/github/languages/top/thmsaguiar/jumpinggame) 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/45aab881-ea65-488c-a076-9f7e7957252e/deploy-status)](https://app.netlify.com/sites/thmsaguiarjumpinggame/deploys) 
+  ![GitHub repo size](https://img.shields.io/github/repo-size/thmsaguiar/jumpinggame) ![GitHub last commit](https://img.shields.io/github/last-commit/thmsaguiar/jumpinggame) ![GitHub top language](https://img.shields.io/github/languages/top/thmsaguiar/jumpinggame) 
   
 </div>
 
