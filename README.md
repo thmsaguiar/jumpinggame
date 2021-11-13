@@ -38,9 +38,10 @@ O jogo em questão é de fácil jogabilidade usando apenas o clique do mouse par
   
 </div>
 
-## Criado por
-[Thomas Aguiar Vicente](https://www.github.com/thmsaguiar)
+## Criador
 
+| [<img src="https://github.com/thmsaguiar.png?size=115" width=115><br><sub>@thmsaguiar</sub>](https://github.com/thmsaguiar) |
+| :---: |
 
 
 
